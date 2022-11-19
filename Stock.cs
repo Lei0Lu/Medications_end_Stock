@@ -87,39 +87,37 @@ namespace pr12._11._2022
 
         public void SortPrice() //3. Получить все лекарства, отсортированные по цене.
         {
-           
             int len = med.Count;
 
             for (var i = 1; i < len; i++)
             {
-                for (int j = 0; j < len - i; j++)
+                for (int j = 0; j < len - 1; j++)
                 {
-
-                    med.Sort((l1, l2) => med[j + 1].Price < med[j].Price ? -1 : med[j + 1].Price > med[j].Price ? 1 : 0);
-
+                    if(med[j].Price> med[j + 1].Price)
+                    {
+                        (med[j], med[j + 1]) = (med[j + 1], med[j]);
+                    }
                 }
             }
-
             Console.WriteLine("По цене:"); PrintMed();
-           
         }
-
         public void SortQuantity() //4. Получить все лекарства, отсортированные по количеству. 
         {
-            Console.WriteLine("По количеству:"); PrintMed();
+            
             int len = med.Count;
 
             for (var i = 1; i < len; i++)
             {
                 for (var j = 0; j < len - i; j++)
                 {
-
-
-                    med.Sort((l1, l2) => med[j + 1].Quantity < med[j].Quantity ? -1 : med[j + 1].Quantity > med[j].Quantity ? 1 : 0);
+                    if (med[j].Quantity > med[j + 1].Quantity)
+                    {
+                        (med[j], med[j + 1]) = (med[j + 1], med[j]);
+                    }
 
                 }
             }
-            PrintMed();
+            Console.WriteLine("По количеству:"); PrintMed();
         }
 
         public void NoRecipe1() //5. Получить все лекарства, которые отпускаются без рецепта.
@@ -153,9 +151,9 @@ namespace pr12._11._2022
         public void ReserveJson() //7. Загрузить все лекарства в массив/лист из файла warehouse.json
         {
 
-            using StreamReader sr = new StreamReader("Medications_Stock.json");
+            StreamReader sr = new StreamReader("Medications_Stock.json");
             string jsonr = sr.ReadToEnd();
-            List<Medications>? med = JsonSerializer.Deserialize<List<Medications>>(jsonr);
+            med = JsonSerializer.Deserialize<List<Medications>>(jsonr);
             Console.WriteLine( "Добавить с резерва:"); 
             PrintMed();
         }
